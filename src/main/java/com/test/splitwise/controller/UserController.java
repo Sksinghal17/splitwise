@@ -5,6 +5,7 @@ import com.test.splitwise.model.entity.User;
 import com.test.splitwise.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -32,5 +33,12 @@ public class UserController {
     userService.changePassword(userId, newPassword);
     return ResponseEntity.ok("Password changed successfully.");
   }
+
+  @GetMapping("/{userId}")
+  public ResponseEntity<User> getUser(@PathVariable Integer userId) {
+    User user = userService.getUser(userId);
+    return ResponseEntity.ok(user);
+  }
+
 }
 
