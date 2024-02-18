@@ -5,6 +5,8 @@ import com.test.splitwise.exception.SplitwiseException;
 import com.test.splitwise.model.dto.GroupDTO;
 import com.test.splitwise.model.entity.Group;
 import com.test.splitwise.repos.GroupRepository;
+import com.test.splitwise.utills.DateUtils;
+import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +20,14 @@ public class GroupService {
   private GroupConverter groupConverter;
 
   public GroupDTO createGroup(GroupDTO groupDTO) {
-    Group group = groupConverter.toEntity(groupDTO);
-    Group savedGroup = groupRepository.save(group);
+    var group = groupConverter.toEntity(groupDTO);
+    group.setCreationDate(new Date());
+    var savedGroup = groupRepository.save(group);
     return groupConverter.toDto(savedGroup);
   }
 
   public GroupDTO getGroupById(Integer groupId) {
-    Group group = groupRepository.findById(groupId)
+    var group = groupRepository.findById(groupId)
         .orElseThrow(() -> new SplitwiseException("Group not found with id: " + groupId));
     return groupConverter.toDto(group);
   }
